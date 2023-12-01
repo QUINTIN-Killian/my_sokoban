@@ -10,7 +10,7 @@ SRC	=	$(wildcard *.c)
 
 BIN_NAME	=	my_sokoban
 
-FLAGS	=	-g3 -W -Wall
+FLAGS	=	-lncurses -g3 -W -Wall
 
 all:	compile_lib compile
 

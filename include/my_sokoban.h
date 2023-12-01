@@ -6,6 +6,8 @@
 ** my_sokoban
 */
 
+#include <curses.h>
+
 #ifndef MY_SOKOBAN_H_
     #define MY_SOKOBAN_H_
 
