@@ -44,21 +44,22 @@ static int get_nb_lines(game_s *game)
 
 static void check_valid_box(game_s *game, int x, int y)
 {
-    int nb_wall = 0;
+    int nb_wall_y = 0;
+    int nb_wall_x = 0;
 
     if (y > 0)
         if (game->map[y - 1][x] == '#')
-            nb_wall++;
+            nb_wall_y++;
     if (y < my_strlen_array(game->map) - 1)
         if (game->map[y + 1][x] == '#')
-            nb_wall++;
+            nb_wall_y++;
     if (x > 0)
         if (game->map[y][x - 1] == '#')
-            nb_wall++;
+            nb_wall_x++;
     if (x < my_strlen(game->map[y]) - 1)
         if (game->map[y][x + 1] == '#')
-            nb_wall++;
-    if (nb_wall >= 2) {
+            nb_wall_x++;
+    if (nb_wall_y > 0 && nb_wall_x > 0) {
         destroy_buff(game, 0);
         destroy_map(game, 1);
     }
