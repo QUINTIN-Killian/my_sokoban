@@ -11,8 +11,9 @@
 
 static void free_game(game_s *game)
 {
-    destroy_buff(game, 0);
-    destroy_map(game, 0);
+    destroy_str(game->buff, 0);
+    destroy_str_array(game->map, 0);
+    destroy_str_array(game->map_ref, 0);
 }
 
 static void print_map(char **map)
@@ -43,7 +44,7 @@ int main(int ac, char **av)
         return help();
     get_buffer_file(&game, av[1]);
     convert_buffer_in_str_array(&game);
-    print_map(game.map);
+    main_game(&game);
     free_game(&game);
     return 0;
 }

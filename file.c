@@ -60,8 +60,8 @@ static void check_valid_box(game_s *game, int x, int y)
         if (game->map[y][x + 1] == '#')
             nb_wall_x++;
     if (nb_wall_y > 0 && nb_wall_x > 0) {
-        destroy_buff(game, 0);
-        destroy_map(game, 1);
+        destroy_str(game->buff, 0);
+        destroy_str_array(game->map, 1);
     }
 }
 
@@ -73,6 +73,10 @@ static void explore_map(game_s *game)
     while (game->map[y][x] != '\0') {
         if (game->map[y][x] == 'X')
             check_valid_box(game, x, y);
+        if (game->map[y][x] == 'P') {
+            game->p_pos.x = x;
+            game->p_pos.y = y;
+        }
         x++;
         if (game->map[y][x] == '\n') {
             x = 0;
@@ -84,12 +88,15 @@ static void explore_map(game_s *game)
 void convert_buffer_in_str_array(game_s *game)
 {
     int temp;
-    int nb_lines_buff = get_nb_lines(game);
     int ind_buff = 0;
 
-    game->map = malloc(sizeof(char *) * (nb_lines_buff + 1));
-    for (int i = 0; i < nb_lines_buff; i++) {
+    game->longest_col = 0;
+    game->nb_lines = get_nb_lines(game);
+    game->map = malloc(sizeof(char *) * (game->nb_lines + 1));
+    for (int i = 0; i < game->nb_lines; i++) {
         temp = get_size_col(game->buff, i);
+        if (temp > game->longest_col)
+            game->longest_col = temp;
         game->map[i] = malloc(sizeof(char) * (temp + 1));
         for (int j = 0; j < temp; j++) {
             game->map[i][j] = game->buff[ind_buff];
@@ -97,8 +104,9 @@ void convert_buffer_in_str_array(game_s *game)
         }
         game->map[i][temp] = '\0';
     }
-    game->map[nb_lines_buff] = NULL;
+    game->map[game->nb_lines] = NULL;
     explore_map(game);
+    game->map_ref = my_str_array_dup(game->map);
 }
 
 static void check_buffer_content(game_s *game)
@@ -107,7 +115,7 @@ static void check_buffer_content(game_s *game)
         if (game->buff[i] != ' ' && game->buff[i] != '\n' &&
         game->buff[i] != '#' && game->buff[i] != 'X' &&
         game->buff[i] != 'O' && game->buff[i] != 'P') {
-            destroy_buff(game, 1);
+            destroy_str(game->buff, 1);
         }
     }
 }
@@ -129,6 +137,6 @@ void get_buffer_file(game_s *game, char *filepath)
     len = read(fd, game->buff, file_size);
     close(fd);
     if (len < 0)
-        destroy_buff(game, 1);
+        destroy_str(game->buff, 1);
     check_buffer_content(game);
 }
