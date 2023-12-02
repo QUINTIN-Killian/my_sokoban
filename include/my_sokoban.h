@@ -49,4 +49,8 @@ void is_down_arrow(game_s *game);
 void is_left_arrow(game_s *game);
 void is_right_arrow(game_s *game);
 
+//end_game.c :
+int is_blocked(game_s *game);
+int is_victory(game_s *game);
+
 #endif

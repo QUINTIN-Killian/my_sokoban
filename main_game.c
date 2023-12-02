@@ -71,6 +71,8 @@ void main_game(game_s *game)
         clear();
         move_player(key, game);
         printw("%s", game->buff);
+        if (is_blocked(game) || is_victory(game))
+            return;
         key = getch();
     }
     endwin();
