@@ -5,6 +5,11 @@
 ** Main file
 ** main
 */
+/*
+NOTES ET OBJECTIFS :
+    - réactualisation map avec espace
+    - déplacer caisses
+*/
 
 #include "include/my.h"
 #include "include/my_sokoban.h"
