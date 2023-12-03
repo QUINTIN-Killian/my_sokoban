@@ -82,8 +82,10 @@ void main_game(game_s *game)
         reinit_map(key, game);
         move_player(key, game);
         printw("%s", game->buff);
-        if (is_blocked(game) || is_victory(game))
+        if (is_blocked(game) || is_victory(game)) {
+            endwin();
             return;
+        }
         key = getch();
     }
     endwin();
