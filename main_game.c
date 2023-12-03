@@ -69,9 +69,23 @@ static void reinit_map(int key, game_s *game)
     }
 }
 
-void main_game(game_s *game)
+static int end_condition(game_s *game)
+{
+    if (is_blocked(game)) {
+        endwin();
+        return 1;
+    }
+    if (is_victory(game)) {
+        endwin();
+        return 0;
+    }
+    return -1;
+}
+
+int main_game(game_s *game)
 {
     int key;
+    int end = -1;
 
     initscr();
     clear();
@@ -82,11 +96,11 @@ void main_game(game_s *game)
         reinit_map(key, game);
         move_player(key, game);
         printw("%s", game->buff);
-        if (is_blocked(game) || is_victory(game)) {
-            endwin();
-            return;
-        }
+        end = end_condition(game);
+        if (end != -1)
+            return end;
         key = getch();
     }
     endwin();
+    return 1;
 }

@@ -8,7 +8,6 @@
 /*
 NOTES ET OBJECTIFS :
     - réactualisation map avec espace
-    - déplacer caisses
 */
 
 #include "include/my.h"
