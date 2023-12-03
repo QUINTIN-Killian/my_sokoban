@@ -7,7 +7,8 @@
 */
 /*
 NOTES ET OBJECTIFS :
-    - réactualisation map avec espace
+    - terminal size error message
+    - centrer map
 */
 
 #include "include/my.h"
