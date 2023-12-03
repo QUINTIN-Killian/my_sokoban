@@ -30,6 +30,7 @@ typedef struct game {
 
 //my_functions.c :
 char **my_str_array_dup(char **array);
+void init_player_pos(game_s *game);
 
 //destroy.c :
 void destroy_str(char *str, int leave);
@@ -43,7 +44,7 @@ void get_buffer_file(game_s *game, char *filepath);
 void reinit_buff(game_s *game);
 void main_game(game_s *game);
 
-//get_arrow.c :
+//movements.c :
 void is_up_arrow(game_s *game);
 void is_down_arrow(game_s *game);
 void is_left_arrow(game_s *game);

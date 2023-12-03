@@ -59,6 +59,16 @@ void move_player(int key, game_s *game)
     }
 }
 
+static void reinit_map(int key, game_s *game)
+{
+    if (key == 32) {
+        destroy_str_array(game->map, 0);
+        game->map = my_str_array_dup(game->map_ref);
+        init_player_pos(game);
+        reinit_buff(game);
+    }
+}
+
 void main_game(game_s *game)
 {
     int key;
@@ -67,8 +77,9 @@ void main_game(game_s *game)
     clear();
     printw("%s", game->buff);
     key = getch();
-    while (key != 32) {
+    while (key != 10) {
         clear();
+        reinit_map(key, game);
         move_player(key, game);
         printw("%s", game->buff);
         if (is_blocked(game) || is_victory(game))

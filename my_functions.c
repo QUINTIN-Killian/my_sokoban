@@ -19,3 +19,21 @@ char **my_str_array_dup(char **array)
     ans[len] = NULL;
     return ans;
 }
+
+void init_player_pos(game_s *game)
+{
+    int x = 0;
+    int y = 0;
+
+    while (game->map[y][x] != '\0') {
+        if (game->map[y][x] == 'P') {
+            game->p_pos.x = x;
+            game->p_pos.y = y;
+        }
+        if (game->map[y][x] == '\n') {
+            x = -1;
+            y++;
+        }
+        x++;
+    }
+}
