@@ -28,6 +28,11 @@ typedef struct game {
 #ifndef MY_SOKOBAN_H_
     #define MY_SOKOBAN_H_
 
+//error_handling.c :
+void explore_map(game_s *game);
+void check_valid_number_of_elements(game_s *game);
+void check_buffer_content(game_s *game);
+
 //my_functions.c :
 void terminal_size_error(game_s *game);
 char **my_str_array_dup(char **array);

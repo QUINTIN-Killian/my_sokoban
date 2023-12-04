@@ -39,6 +39,7 @@ int main(int ac, char **av)
     noecho();
     get_buffer_file(&game, av[1]);
     convert_buffer_in_str_array(&game);
+    check_valid_number_of_elements(&game);
     main_game(&game);
     free_game(&game);
     return 0;

@@ -1,0 +1,99 @@
+/*
+** EPITECH PROJECT, 2023
+** my_sokoban
+** File description:
+** search for errors in the map
+** error_handling
+*/
+
+#include "include/my.h"
+#include "include/my_sokoban.h"
+
+static void check_valid_box(game_s *game, int x, int y)
+{
+    int nb_wall_y = 0;
+    int nb_wall_x = 0;
+
+    if (y > 0)
+        if (game->map[y - 1][x] == '#')
+            nb_wall_y++;
+    if (y < my_strlen_array(game->map) - 1)
+        if (game->map[y + 1][x] == '#')
+            nb_wall_y++;
+    if (x > 0)
+        if (game->map[y][x - 1] == '#')
+            nb_wall_x++;
+    if (x < my_strlen(game->map[y]) - 1)
+        if (game->map[y][x + 1] == '#')
+            nb_wall_x++;
+    if (nb_wall_y > 0 && nb_wall_x > 0) {
+        destroy_str(game->buff, 0);
+        destroy_str_array(game->map, 1);
+    }
+}
+
+void explore_map(game_s *game)
+{
+    int x = 0;
+    int y = 0;
+
+    while (game->map[y][x] != '\0') {
+        if (game->map[y][x] == 'X')
+            check_valid_box(game, x, y);
+        if (game->map[y][x] == 'P') {
+            game->p_pos.x = x;
+            game->p_pos.y = y;
+        }
+        x++;
+        if (game->map[y][x] == '\n') {
+            x = 0;
+            y++;
+        }
+    }
+}
+
+static void check_valid_number_of_elements_aux(game_s *game,
+    int nb_player, int nb_circles, int nb_boxes)
+{
+    if (nb_player != 1 || nb_circles == 0 || nb_boxes == 0 ||
+    nb_circles != nb_boxes) {
+        destroy_str(game->buff, 0);
+        destroy_str_array(game->map, 0);
+        destroy_str_array(game->map_ref, 1);
+    }
+}
+
+void check_valid_number_of_elements(game_s *game)
+{
+    int x = 0;
+    int y = 0;
+    int nb_boxes = 0;
+    int nb_circles = 0;
+    int nb_player = 0;
+
+    while (game->map[y][x] != '\0') {
+        if (game->map[y][x] == 'X')
+            nb_boxes++;
+        if (game->map[y][x] == 'O')
+            nb_circles++;
+        if (game->map[y][x] == 'P')
+            nb_player++;
+        x++;
+        if (game->map[y][x] == '\n') {
+            x = 0;
+            y++;
+        }
+    }
+    check_valid_number_of_elements_aux(game, nb_player, nb_circles, nb_boxes);
+}
+
+void check_buffer_content(game_s *game)
+{
+    for (int i = 0; i < my_strlen(game->buff); i++) {
+        if (game->buff[i] != ' ' && game->buff[i] != '\n' &&
+        game->buff[i] != '#' && game->buff[i] != 'X' &&
+        game->buff[i] != 'O' && game->buff[i] != 'P') {
+            destroy_str(game->buff, 1);
+        }
+    }
+}
