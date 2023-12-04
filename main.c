@@ -9,13 +9,6 @@
 #include "include/my.h"
 #include "include/my_sokoban.h"
 
-static void free_game(game_s *game)
-{
-    destroy_str(game->buff, 0);
-    destroy_str_array(game->map, 0);
-    destroy_str_array(game->map_ref, 0);
-}
-
 static int help(void)
 {
     my_putstr("USAGE\n");

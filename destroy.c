@@ -24,3 +24,10 @@ void destroy_str_array(char **array, int leave)
     if (leave)
         exit(84);
 }
+
+void free_game(game_s *game)
+{
+    destroy_str(game->buff, 0);
+    destroy_str_array(game->map, 0);
+    destroy_str_array(game->map_ref, 0);
+}

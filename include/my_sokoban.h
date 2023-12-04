@@ -41,6 +41,7 @@ void init_player_pos(game_s *game);
 //destroy.c :
 void destroy_str(char *str, int leave);
 void destroy_str_array(char **array, int leave);
+void free_game(game_s *game);
 
 //file.c :
 void convert_buffer_in_str_array(game_s *game);
