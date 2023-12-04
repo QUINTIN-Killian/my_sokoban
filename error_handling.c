@@ -59,11 +59,10 @@ static void init_game(game_s *game)
     game->nb_circles = 0;
 }
 
-static void check_valid_number_of_elements_aux(game_s *game,
-    int nb_player, int nb_circles, int nb_boxes)
+static void check_valid_number_of_elements_aux(game_s *game)
 {
-    if (nb_player != 1 || nb_circles == 0 || nb_boxes == 0 ||
-    nb_circles != nb_boxes) {
+    if (game->nb_player != 1 || game->nb_circles == 0 || game->nb_boxes == 0 ||
+    game->nb_circles != game->nb_boxes) {
         destroy_str(game->buff, 0);
         destroy_str_array(game->map, 0);
         destroy_str_array(game->map_ref, 1);
@@ -89,8 +88,7 @@ void check_valid_number_of_elements(game_s *game)
             y++;
         }
     }
-    check_valid_number_of_elements_aux(game, game->nb_player,
-    game->nb_circles, game->nb_boxes);
+    check_valid_number_of_elements_aux(game);
 }
 
 void check_buffer_content(game_s *game)
@@ -104,25 +102,31 @@ void check_buffer_content(game_s *game)
     }
 }
 
-static void search_elements(game_s *game, int x, int y)
+static void search_elements(game_s *game, int x, int y, info_temp_s *info_temp)
 {
     if (game->map[y][x] == 'X')
-        game->nb_boxes--;
+        info_temp->nb_boxes++;
     if (game->map[y][x] == 'O')
-        game->nb_circles--;
+        info_temp->nb_circles++;
     if (game->map[y][x] != '#' && game->map[y][x] != '1') {
         game->map[y][x] = '1';
-        search_elements(game, x - 1, y);
-        search_elements(game, x + 1, y);
-        search_elements(game, x, y - 1);
-        search_elements(game, x, y + 1);
+        search_elements(game, x - 1, y, info_temp);
+        search_elements(game, x + 1, y, info_temp);
+        search_elements(game, x, y - 1, info_temp);
+        search_elements(game, x, y + 1, info_temp);
     }
 }
 
 void check_elements_accessible(game_s *game)
 {
-    search_elements(game, game->p_pos.x, game->p_pos.y);
-    if (game->nb_boxes != 0 || game->nb_circles != 0) {
+    info_temp_s info_temp;
+
+    info_temp.nb_player = 0;
+    info_temp.nb_boxes = 0;
+    info_temp.nb_circles = 0;
+    search_elements(game, game->p_pos.x, game->p_pos.y, &info_temp);
+    if (info_temp.nb_boxes != game->nb_boxes ||
+    info_temp.nb_circles != game->nb_circles) {
         free_game(game);
         exit(84);
     } else {

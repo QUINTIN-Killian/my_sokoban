@@ -40,17 +40,17 @@ int is_blocked(game_s *game)
     int ans = 0;
 
     while (game->map[y][x] != '\0') {
-        if (game->map[y][x] == 'X')
-            ans = is_blocked_aux(game, x, y);
-        if (ans != 0)
-            return ans;
+        if (game->map[y][x] == 'X' && is_blocked_aux(game, x, y))
+            ans++;
+        if (ans == game->nb_boxes)
+            return 1;
         if (game->map[y][x] == '\n') {
             x = -1;
             y++;
         }
         x++;
     }
-    return ans;
+    return 0;
 }
 
 int is_victory(game_s *game)

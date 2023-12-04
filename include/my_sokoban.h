@@ -11,6 +11,12 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 
+typedef struct info_temp {
+    int nb_player;
+    int nb_boxes;
+    int nb_circles;
+} info_temp_s;
+
 typedef struct player_pos {
     int x;
     int y;
