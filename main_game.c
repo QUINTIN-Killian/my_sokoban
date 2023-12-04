@@ -55,7 +55,7 @@ static void print_map(game_s *game)
 {
     for (int i = 0; i < my_strlen_array(game->map); i++) {
         mvprintw(LINES / 2 - game->nb_lines / 2 + i,
-        COLS / 2 - my_strlen(game->map[i]) / 2, "%s", game->map[i]);
+        COLS / 2 - game->longest_col / 2, "%s", game->map[i]);
     }
 }
 

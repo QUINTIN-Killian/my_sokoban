@@ -14,6 +14,8 @@ static int is_blocked_aux(game_s *game, int x, int y)
     int nb_wall_y = 0;
     int nb_wall_x = 0;
 
+    if (game->map_ref[y][x] == 'O')
+        return 0;
     if (y > 0)
         if (game->map[y - 1][x] == '#')
             nb_wall_y++;
