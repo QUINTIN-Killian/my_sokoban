@@ -7,7 +7,6 @@
 */
 /*
 NOTES ET OBJECTIFS :
-    - terminal size error message
     - centrer map
 */
 
@@ -47,6 +46,7 @@ int main(int ac, char **av)
         return 84;
     if (my_strcmp(av[1], "-h") == 0)
         return help();
+    noecho();
     get_buffer_file(&game, av[1]);
     convert_buffer_in_str_array(&game);
     main_game(&game);

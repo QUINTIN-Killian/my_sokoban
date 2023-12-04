@@ -9,6 +9,22 @@
 #include "include/my.h"
 #include "include/my_sokoban.h"
 
+void terminal_size_error(game_s *game)
+{
+    int x;
+    int y;
+    char *error_message = "Enlarge the terminal to see the whole map.";
+
+    getmaxyx(stdscr, y, x);
+    while (game->nb_lines > y || game->longest_col > x) {
+        clear();
+        mvprintw(LINES / 2, COLS / 2 - my_strlen(error_message) / 2,
+        "%s", error_message);
+        refresh();
+        getmaxyx(stdscr, y, x);
+    }
+}
+
 char **my_str_array_dup(char **array)
 {
     int len = my_strlen_array(array);

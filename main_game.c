@@ -92,6 +92,7 @@ int main_game(game_s *game)
     printw("%s", game->buff);
     key = getch();
     while (key != 10) {
+        terminal_size_error(game);
         clear();
         reinit_map(key, game);
         move_player(key, game);

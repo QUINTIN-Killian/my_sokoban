@@ -29,6 +29,7 @@ typedef struct game {
     #define MY_SOKOBAN_H_
 
 //my_functions.c :
+void terminal_size_error(game_s *game);
 char **my_str_array_dup(char **array);
 void init_player_pos(game_s *game);
 
