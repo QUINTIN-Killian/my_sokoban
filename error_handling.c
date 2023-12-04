@@ -52,6 +52,13 @@ void explore_map(game_s *game)
     }
 }
 
+static void init_game(game_s *game)
+{
+    game->nb_player = 0;
+    game->nb_boxes = 0;
+    game->nb_circles = 0;
+}
+
 static void check_valid_number_of_elements_aux(game_s *game,
     int nb_player, int nb_circles, int nb_boxes)
 {
@@ -67,24 +74,23 @@ void check_valid_number_of_elements(game_s *game)
 {
     int x = 0;
     int y = 0;
-    int nb_boxes = 0;
-    int nb_circles = 0;
-    int nb_player = 0;
 
+    init_game(game);
     while (game->map[y][x] != '\0') {
         if (game->map[y][x] == 'X')
-            nb_boxes++;
+            game->nb_boxes++;
         if (game->map[y][x] == 'O')
-            nb_circles++;
+            game->nb_circles++;
         if (game->map[y][x] == 'P')
-            nb_player++;
+            game->nb_player++;
         x++;
         if (game->map[y][x] == '\n') {
             x = 0;
             y++;
         }
     }
-    check_valid_number_of_elements_aux(game, nb_player, nb_circles, nb_boxes);
+    check_valid_number_of_elements_aux(game, game->nb_player,
+    game->nb_circles, game->nb_boxes);
 }
 
 void check_buffer_content(game_s *game)
@@ -95,5 +101,32 @@ void check_buffer_content(game_s *game)
         game->buff[i] != 'O' && game->buff[i] != 'P') {
             destroy_str(game->buff, 1);
         }
+    }
+}
+
+static void search_elements(game_s *game, int x, int y)
+{
+    if (game->map[y][x] == 'X')
+        game->nb_boxes--;
+    if (game->map[y][x] == 'O')
+        game->nb_circles--;
+    if (game->map[y][x] != '#' && game->map[y][x] != '1') {
+        game->map[y][x] = '1';
+        search_elements(game, x - 1, y);
+        search_elements(game, x + 1, y);
+        search_elements(game, x, y - 1);
+        search_elements(game, x, y + 1);
+    }
+}
+
+void check_elements_accessible(game_s *game)
+{
+    search_elements(game, game->p_pos.x, game->p_pos.y);
+    if (game->nb_boxes != 0 || game->nb_circles != 0) {
+        free_game(game);
+        exit(84);
+    } else {
+        destroy_str_array(game->map, 0);
+        game->map = my_str_array_dup(game->map_ref);
     }
 }

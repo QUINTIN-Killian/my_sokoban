@@ -23,6 +23,9 @@ typedef struct game {
     player_pos_s p_pos;
     int nb_lines;
     int longest_col;
+    int nb_player;
+    int nb_boxes;
+    int nb_circles;
 } game_s;
 
 #ifndef MY_SOKOBAN_H_
@@ -32,6 +35,7 @@ typedef struct game {
 void explore_map(game_s *game);
 void check_valid_number_of_elements(game_s *game);
 void check_buffer_content(game_s *game);
+void check_elements_accessible(game_s *game);
 
 //my_functions.c :
 void terminal_size_error(game_s *game);

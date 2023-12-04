@@ -33,6 +33,7 @@ int main(int ac, char **av)
     get_buffer_file(&game, av[1]);
     convert_buffer_in_str_array(&game);
     check_valid_number_of_elements(&game);
+    check_elements_accessible(&game);
     main_game(&game);
     free_game(&game);
     return 0;
