@@ -42,7 +42,6 @@ void convert_buffer_in_str_array(game_s *game);
 void get_buffer_file(game_s *game, char *filepath);
 
 //main_game.c :
-void reinit_buff(game_s *game);
 int main_game(game_s *game);
 
 //movements.c :

@@ -9,36 +9,6 @@
 #include "include/my.h"
 #include "include/my_sokoban.h"
 
-static void mvprintw_map(game_s *game)
-{
-    for (int i = 0; i < my_strlen_array(game->map); i++)
-        mvprintw(LINES / 2 - game->nb_lines / 2,
-        COLS / 2 - game->longest_col / 2, game->map[i]);
-}
-
-void reinit_buff(game_s *game)
-{
-    int len_map = 0;
-    int ind = 0;
-    int x = 0;
-    int y = 0;
-
-    free(game->buff);
-    for (int i = 0; i < my_strlen_array(game->map); i++)
-        len_map += my_strlen(game->map[i]);
-    game->buff = malloc(sizeof(char) * (len_map + 1));
-    while (game->map[y][x] != '\0') {
-        game->buff[ind] = game->map[y][x];
-        if (game->map[y][x] == '\n') {
-            x = -1;
-            y++;
-        }
-        ind++;
-        x++;
-    }
-    game->buff[ind] = '\0';
-}
-
 void move_player(int key, game_s *game)
 {
     if (key == 65) {
@@ -65,7 +35,6 @@ static void reinit_map(int key, game_s *game)
         destroy_str_array(game->map, 0);
         game->map = my_str_array_dup(game->map_ref);
         init_player_pos(game);
-        reinit_buff(game);
     }
 }
 
@@ -82,6 +51,14 @@ static int end_condition(game_s *game)
     return -1;
 }
 
+static void print_map(game_s *game)
+{
+    for (int i = 0; i < my_strlen_array(game->map); i++) {
+        mvprintw(LINES / 2 - game->nb_lines / 2 + i,
+        COLS / 2 - my_strlen(game->map[i]) / 2, "%s", game->map[i]);
+    }
+}
+
 int main_game(game_s *game)
 {
     int key;
@@ -89,14 +66,14 @@ int main_game(game_s *game)
 
     initscr();
     clear();
-    printw("%s", game->buff);
+    print_map(game);
     key = getch();
     while (key != 10) {
         terminal_size_error(game);
         clear();
         reinit_map(key, game);
         move_player(key, game);
-        printw("%s", game->buff);
+        print_map(game);
         end = end_condition(game);
         if (end != -1)
             return end;

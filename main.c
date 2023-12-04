@@ -5,10 +5,6 @@
 ** Main file
 ** main
 */
-/*
-NOTES ET OBJECTIFS :
-    - centrer map
-*/
 
 #include "include/my.h"
 #include "include/my_sokoban.h"
@@ -18,12 +14,6 @@ static void free_game(game_s *game)
     destroy_str(game->buff, 0);
     destroy_str_array(game->map, 0);
     destroy_str_array(game->map_ref, 0);
-}
-
-static void print_map(char **map)
-{
-    for (int i = 0; i < my_strlen_array(map); i++)
-        write(1, map[i], my_strlen(map[i]));
 }
 
 static int help(void)

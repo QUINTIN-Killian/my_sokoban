@@ -46,7 +46,6 @@ void is_up_arrow(game_s *game)
         game->p_pos.y -= 1;
         game->map[game->p_pos.y][game->p_pos.x] = 'P';
         respawn_circle(game);
-        reinit_buff(game);
     }
 }
 
@@ -58,7 +57,6 @@ void is_down_arrow(game_s *game)
         game->p_pos.y += 1;
         game->map[game->p_pos.y][game->p_pos.x] = 'P';
         respawn_circle(game);
-        reinit_buff(game);
     }
 }
 
@@ -70,7 +68,6 @@ void is_right_arrow(game_s *game)
         game->p_pos.x += 1;
         game->map[game->p_pos.y][game->p_pos.x] = 'P';
         respawn_circle(game);
-        reinit_buff(game);
     }
 }
 
@@ -82,6 +79,5 @@ void is_left_arrow(game_s *game)
         game->p_pos.x -= 1;
         game->map[game->p_pos.y][game->p_pos.x] = 'P';
         respawn_circle(game);
-        reinit_buff(game);
     }
 }
