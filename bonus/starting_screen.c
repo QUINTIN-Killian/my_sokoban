@@ -23,7 +23,8 @@ static void init_start(start_s *start)
     "|_| |_| |_|\\__, |___|___/\\___/|_|\\_\\___/|_.__/ \\__,_|_| |_|";
     start->title6 =
     "           |___/_____|    (created by Killian QUINTIN)     ";
-    start->instruction = "press 'space' to play or 'enter' to leave";
+    start->instruction1 = "press 'space' to play";
+    start->instruction2 = "press 'enter' to leave";
 }
 
 static void print_start_title(start_s *start)
@@ -40,7 +41,8 @@ static void print_start_title(start_s *start)
     "%s", start->title5);
     mvprintw(LINES / 2 + 2, COLS / 2 - my_strlen(start->title6) / 2,
     "%s", start->title6);
-    mvprintw(LINES - 1, 0, "%s", start->instruction);
+    mvprintw(LINES - 2, 0, "%s", start->instruction1);
+    mvprintw(LINES - 1, 0, "%s", start->instruction2);
 }
 
 int starting_screen(void)
@@ -50,10 +52,11 @@ int starting_screen(void)
 
     init_start(&start);
     clear();
+    start_terminal_size_error();
     print_start_title(&start);
     key = getch();
     while (key != 10) {
-        // terminal_size_error(game);
+        start_terminal_size_error();
         clear();
         if (key == 32)
             return 1;

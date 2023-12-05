@@ -16,7 +16,39 @@ void terminal_size_error(game_s *game)
     char *error_message = "Enlarge the terminal to see the whole map.";
 
     getmaxyx(stdscr, y, x);
-    while (game->nb_lines > y || game->longest_col > x) {
+    while (game->nb_lines + 4 > y || game->longest_col > x) {
+        clear();
+        mvprintw(LINES / 2, COLS / 2 - my_strlen(error_message) / 2,
+        "%s", error_message);
+        refresh();
+        getmaxyx(stdscr, y, x);
+    }
+}
+
+void start_terminal_size_error(void)
+{
+    int x;
+    int y;
+    char *error_message = "Enlarge the terminal to see the whole text.";
+
+    getmaxyx(stdscr, y, x);
+    while (10 > y || 60 > x) {
+        clear();
+        mvprintw(LINES / 2, COLS / 2 - my_strlen(error_message) / 2,
+        "%s", error_message);
+        refresh();
+        getmaxyx(stdscr, y, x);
+    }
+}
+
+void end_terminal_size_error(void)
+{
+    int x;
+    int y;
+    char *error_message = "Enlarge the terminal to see the whole text.";
+
+    getmaxyx(stdscr, y, x);
+    while (11 > y || 38 > x) {
         clear();
         mvprintw(LINES / 2, COLS / 2 - my_strlen(error_message) / 2,
         "%s", error_message);

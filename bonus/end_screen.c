@@ -16,15 +16,16 @@ static void print_win_title(void)
     char *title3 = "| |_| | (_) | |_| |  \\ V  V / (_) | | | |";
     char *title4 = " \\__, |\\___/ \\__,_|   \\_/\\_/ \\___/|_| |_|";
     char *title5 = " |___/                                   ";
-    char *instruction =
-    "press 'space' to go back to the main menu or 'enter' to leave";
+    char *instruction1 = "press 'space' to go back to the main menu";
+    char *instruction2 = "press 'enter' to leave";
 
     mvprintw(LINES / 2 - 2, COLS / 2 - my_strlen(title1) / 2, "%s", title1);
     mvprintw(LINES / 2 - 1, COLS / 2 - my_strlen(title2) / 2, "%s", title2);
     mvprintw(LINES / 2 - 0, COLS / 2 - my_strlen(title3) / 2, "%s", title3);
     mvprintw(LINES / 2 + 1, COLS / 2 - my_strlen(title4) / 2, "%s", title4);
     mvprintw(LINES / 2 + 2, COLS / 2 - my_strlen(title5) / 2, "%s", title5);
-    mvprintw(LINES - 1, 0, "%s", instruction);
+    mvprintw(LINES - 2, 0, "%s", instruction1);
+    mvprintw(LINES - 1, 0, "%s", instruction2);
 }
 
 static void print_lose_title(void)
@@ -35,8 +36,8 @@ static void print_lose_title(void)
     char *title4 = "| |_| | (_) | |_| | | | (_) \\__ \\ |_ ";
     char *title5 = " \\__, |\\___/ \\__,_| |_|\\___/|___/\\__|";
     char *title6 = " |___/                               ";
-    char *instruction =
-    "press 'space' to go back to the main menu or 'enter' to leave";
+    char *instruction1 = "press 'space' to go back to the main menu";
+    char *instruction2 = "press 'enter' to leave";
 
     mvprintw(LINES / 2 - 3, COLS / 2 - my_strlen(title1) / 2, "%s", title1);
     mvprintw(LINES / 2 - 2, COLS / 2 - my_strlen(title2) / 2, "%s", title2);
@@ -44,7 +45,16 @@ static void print_lose_title(void)
     mvprintw(LINES / 2 - 0, COLS / 2 - my_strlen(title4) / 2, "%s", title4);
     mvprintw(LINES / 2 + 1, COLS / 2 - my_strlen(title5) / 2, "%s", title5);
     mvprintw(LINES / 2 + 2, COLS / 2 - my_strlen(title6) / 2, "%s", title6);
-    mvprintw(LINES - 1, 0, "%s", instruction);
+    mvprintw(LINES - 2, 0, "%s", instruction1);
+    mvprintw(LINES - 1, 0, "%s", instruction2);
+}
+
+static void print_end_title(int i)
+{
+    if (i)
+        print_win_title();
+    else
+        print_lose_title();
 }
 
 int end_screen(int i)
@@ -52,20 +62,15 @@ int end_screen(int i)
     int key;
 
     clear();
-    if (i)
-        print_win_title();
-    else
-        print_lose_title();
+    end_terminal_size_error();
+    print_end_title(i);
     key = getch();
     while (key != 10) {
-        // terminal_size_error(game);
+        end_terminal_size_error();
         clear();
         if (key == 32)
             return 1;
-        if (i)
-            print_win_title();
-        else
-            print_lose_title();
+        print_end_title(i);
         key = getch();
     }
     return 0;

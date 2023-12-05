@@ -81,6 +81,7 @@ int main_game(game_s *game)
         return 0;
     }
     clear();
+    terminal_size_error(game);
     print_map(game);
     key = getch();
     while (key != 10) {

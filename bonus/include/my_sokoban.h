@@ -18,7 +18,8 @@ typedef struct start {
     char *title4;
     char *title5;
     char *title6;
-    char *instruction;
+    char *instruction1;
+    char *instruction2;
 } start_s;
 
 typedef struct info_temp {
@@ -61,6 +62,8 @@ void check_elements_accessible(game_s *game);
 
 //my_functions.c :
 void terminal_size_error(game_s *game);
+void start_terminal_size_error(void);
+void end_terminal_size_error(void);
 char **my_str_array_dup(char **array);
 void init_player_pos(game_s *game);
 
