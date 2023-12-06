@@ -9,6 +9,15 @@
 #include "include/my.h"
 #include "include/my_sokoban.h"
 
+static void print_map(game_s *game)
+{
+    for (int i = 0; i < my_strlen_array(game->map); i++) {
+        mvprintw(LINES / 2 - game->nb_lines / 2 + i,
+        COLS / 2 - game->longest_col / 2, "%s", game->map[i]);
+    }
+    refresh();
+}
+
 void move_player(int key, game_s *game)
 {
     if (key == 65) {
@@ -41,22 +50,12 @@ static void reinit_map(int key, game_s *game)
 static int end_condition(game_s *game)
 {
     if (is_blocked(game)) {
-        endwin();
         return 1;
     }
     if (is_victory(game)) {
-        endwin();
         return 0;
     }
     return -1;
-}
-
-static void print_map(game_s *game)
-{
-    for (int i = 0; i < my_strlen_array(game->map); i++) {
-        mvprintw(LINES / 2 - game->nb_lines / 2 + i,
-        COLS / 2 - game->longest_col / 2, "%s", game->map[i]);
-    }
 }
 
 int main_game(game_s *game)
@@ -64,19 +63,19 @@ int main_game(game_s *game)
     int key;
     int end = -1;
 
-    terminal_size_error(game);
-    print_map(game);
-    key = getch();
-    while (key != 10) {
+    while (end == -1 && key != 10) {
         terminal_size_error(game);
         clear();
+        print_map(game);
+        key = getch();
         reinit_map(key, game);
         move_player(key, game);
-        print_map(game);
         end = end_condition(game);
-        if (end != -1)
+        if (end != -1) {
+            print_map(game);
+            endwin();
             return end;
-        key = getch();
+        }
     }
     endwin();
     return 1;

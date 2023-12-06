@@ -24,6 +24,7 @@ static int help(void)
 int main(int ac, char **av)
 {
     game_s game;
+    int final_return;
 
     if (ac != 2)
         return 84;
@@ -36,7 +37,7 @@ int main(int ac, char **av)
     initscr();
     noecho();
     clear();
-    main_game(&game);
+    final_return = main_game(&game);
     free_game(&game);
-    return 0;
+    return final_return;
 }
