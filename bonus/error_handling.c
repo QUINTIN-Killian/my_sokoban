@@ -101,36 +101,3 @@ void check_buffer_content(game_s *game)
         }
     }
 }
-
-static void search_elements(game_s *game, int x, int y, info_temp_s *info_temp)
-{
-    if (game->map[y][x] == 'X')
-        info_temp->nb_boxes++;
-    if (game->map[y][x] == 'O')
-        info_temp->nb_circles++;
-    if (game->map[y][x] != '#' && game->map[y][x] != '1') {
-        game->map[y][x] = '1';
-        search_elements(game, x - 1, y, info_temp);
-        search_elements(game, x + 1, y, info_temp);
-        search_elements(game, x, y - 1, info_temp);
-        search_elements(game, x, y + 1, info_temp);
-    }
-}
-
-void check_elements_accessible(game_s *game)
-{
-    info_temp_s info_temp;
-
-    info_temp.nb_player = 0;
-    info_temp.nb_boxes = 0;
-    info_temp.nb_circles = 0;
-    search_elements(game, game->p_pos.x, game->p_pos.y, &info_temp);
-    if (info_temp.nb_boxes != game->nb_boxes ||
-    info_temp.nb_circles != game->nb_circles) {
-        free_game(game);
-        exit(84);
-    } else {
-        destroy_str_array(game->map, 0);
-        game->map = my_str_array_dup(game->map_ref);
-    }
-}
