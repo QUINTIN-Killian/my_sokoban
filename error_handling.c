@@ -19,11 +19,11 @@ void explore_map(game_s *game)
             game->p_pos.x = x;
             game->p_pos.y = y;
         }
-        x++;
         if (game->map[y][x] == '\n') {
-            x = 0;
+            x = -1;
             y++;
         }
+        x++;
     }
 }
 
