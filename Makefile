@@ -8,6 +8,8 @@
 
 SRC	=	$(wildcard *.c)
 
+OBJ	=	$(SRC:.c=.o)
+
 BIN_NAME	=	my_sokoban
 
 FLAGS	=	-lncurses -g3 -W -Wall
@@ -15,10 +17,10 @@ FLAGS	=	-lncurses -g3 -W -Wall
 all:	compile_lib compile
 
 compile_lib:
-	make re -C lib/my
+	make -C lib/my
 
 compile:	$(OBJ)
-	gcc $(SRC) -L. -lmy $(FLAGS) -o $(BIN_NAME)
+	gcc -o $(BIN_NAME) $(OBJ) -L. -lmy $(FLAGS)
 
 clean:
 	rm -f $(OBJ)

@@ -9,46 +9,21 @@
 #include "include/my.h"
 #include "include/my_sokoban.h"
 
-static void check_valid_box(game_s *game, int x, int y)
-{
-    int nb_wall_y = 0;
-    int nb_wall_x = 0;
-
-    if (y > 0)
-        if (game->map[y - 1][x] == '#')
-            nb_wall_y++;
-    if (y < my_strlen_array(game->map) - 1)
-        if (game->map[y + 1][x] == '#')
-            nb_wall_y++;
-    if (x > 0)
-        if (game->map[y][x - 1] == '#')
-            nb_wall_x++;
-    if (x < my_strlen(game->map[y]) - 1)
-        if (game->map[y][x + 1] == '#')
-            nb_wall_x++;
-    if (nb_wall_y > 0 && nb_wall_x > 0) {
-        destroy_str(game->buff, 0);
-        destroy_str_array(game->map, 1);
-    }
-}
-
 void explore_map(game_s *game)
 {
     int x = 0;
     int y = 0;
 
     while (game->map[y][x] != '\0') {
-        if (game->map[y][x] == 'X')
-            check_valid_box(game, x, y);
         if (game->map[y][x] == 'P') {
             game->p_pos.x = x;
             game->p_pos.y = y;
         }
-        x++;
         if (game->map[y][x] == '\n') {
-            x = 0;
+            x = -1;
             y++;
         }
+        x++;
     }
 }
 
