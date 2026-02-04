@@ -36,7 +36,7 @@ make
 **Executing:**
 
 ```bash
-./my_sokoban test_map.txt
+./my_sokoban bonus/maps/classic_map2.txt
 ```
 
 ---
